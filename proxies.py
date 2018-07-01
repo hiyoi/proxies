@@ -36,7 +36,7 @@ def fetch(url):
     try:
         resp = requests.get(url, headers=headers)
         if resp.status_code == 200:
-            return resp.content
+            return resp.content.decode('utf-8', 'ignore')
     except Exception as e:
         raise e
 
@@ -51,7 +51,7 @@ def get_address():
                 proxy = Proxy(addr=addr)
                 session.add(proxy)
                 session.commit()
-                logger.debug(item[0] + ':' + item[1])
+                logger.info(item[0] + ':' + item[1])
     except Exception:
         session.rollback()
     finally:
@@ -114,3 +114,4 @@ def get():
     pros = session.query(Proxy).all()
     pro = random.choice(pros)
     return pro.address
+
